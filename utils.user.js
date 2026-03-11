@@ -1291,7 +1291,7 @@ async function insertComment() {
 
     //document.body.style = "overflow-y: hidden;"
     //document.querySelector("#main-container").style = "overflow-y: scroll;"
-    createCommentField()
+    //createCommentField()
     await insertComment()
     createButtonLink()
     createImagesView()
