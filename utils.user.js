@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Script SLA
+// @name         Script Utilidades
 // @namespace
 // @version      1.0.4
 // @description  Script para manipular a página de ticket do portal

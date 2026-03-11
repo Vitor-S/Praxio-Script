@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Script Utilidades
+// @name         Script SLA
 // @namespace
 // @version      1.0.4
 // @description  Utilitários para o portal do cliente Praxio com múltiplos atalhos
