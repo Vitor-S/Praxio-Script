@@ -109,11 +109,11 @@ async function createTabEmpresa() {
 
       <h5>Sites</h5>
       ${empresa.url_sites?.length
-            ? `
+                ? `
             <ul>
               ${empresa.url_sites
-            .map(site => `<li><a href="${site.url_site}" target="_blank">${site.url_site}</a></li>`)
-            .join("")}
+                    .map(site => `<li><a href="${site.url_site}" target="_blank">${site.url_site}</a></li>`)
+                    .join("")}
             </ul>
           `
                 : `<span>Nenhum site cadastrado</span>`
@@ -123,15 +123,15 @@ async function createTabEmpresa() {
 
       <h5>POS</h5>
       ${empresa.pos_empresas?.length
-            ? `
+                ? `
             <ul>
               ${empresa.pos_empresas
-            .map(p =>
-                 p.pos
-                 ? `<li>${p.pos.marca} - ${p.pos.modelo}</li>`
+                    .map(p =>
+                        p.pos
+                            ? `<li>${p.pos.marca} - ${p.pos.modelo}</li>`
                             : `<li>POS não vinculada</li>`
                     )
-            .join("")}
+                    .join("")}
             </ul>
           `
                 : `<span>Nenhuma POS cadastrada</span>`
@@ -327,7 +327,7 @@ font-size:14px;
 line-height:1.6;
 white-space:pre;
 color:#000000;
-">${formatted.replace(/</g,"&lt;").replace(/>/g,"&gt;")}</pre>
+">${formatted.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</pre>
 `
 
     } catch (err) {
@@ -593,8 +593,12 @@ async function abrirModalTXT(src) {
     const btnDiminuir = document.createElement("button")
     btnDiminuir.textContent = "A-"
 
+    const btnCopiar = document.createElement("button")
+    btnCopiar.textContent = "Copiar"
+
     toolbar.appendChild(btnAumentar)
     toolbar.appendChild(btnDiminuir)
+    toolbar.appendChild(btnCopiar)
 
     const pre = document.createElement("pre")
 
@@ -622,6 +626,10 @@ async function abrirModalTXT(src) {
             fontSize -= 2
             pre.style.fontSize = fontSize + "px"
         }
+    }
+
+    btnCopiar.onclick = () => {
+        navigator.clipboard.writeText(pre.textContent)
     }
 
     container.appendChild(toolbar)
@@ -908,90 +916,90 @@ function createImagesView() {
             fetch(url)
                 .then(r => r.text())
                 .then(raw => {
-                const html = decodeHtml(raw);
+                    const html = decodeHtml(raw);
 
-                const template = document.createElement("template");
-                template.innerHTML = html.trim();
+                    const template = document.createElement("template");
+                    template.innerHTML = html.trim();
 
-                const anexos = template.content.querySelectorAll("a");
+                    const anexos = template.content.querySelectorAll("a");
 
-                anexos.forEach(a => {
-                    const nome = a.querySelector("label")?.innerText || "";
-                    const isImage = /\.(jpg|jpeg|png|webp|gif)$/i.test(nome);
-                    const isVideo = /\.(mp4|webm|mov|ogg)$/i.test(nome);
-                    const isPDF = /\.pdf$/i.test(nome);
-                    const isTXT = /\.txt$/i.test(nome);
-                    const isExcel = /\.(xlsx|xls)$/i.test(nome);
-                    const isDOCX = /\.docx$/i.test(nome)
-                    const isXML = /\.xml$/i.test(nome)
-                    const isSQL = /\.sql$/i.test(nome)
+                    anexos.forEach(a => {
+                        const nome = a.querySelector("label")?.innerText || "";
+                        const isImage = /\.(jpg|jpeg|png|webp|gif)$/i.test(nome);
+                        const isVideo = /\.(mp4|webm|mov|ogg)$/i.test(nome);
+                        const isPDF = /\.pdf$/i.test(nome);
+                        const isTXT = /\.txt$/i.test(nome);
+                        const isExcel = /\.(xlsx|xls)$/i.test(nome);
+                        const isDOCX = /\.docx$/i.test(nome)
+                        const isXML = /\.xml$/i.test(nome)
+                        const isSQL = /\.sql$/i.test(nome)
 
-                    if (!isImage && !isVideo && !isPDF && !isTXT && !isExcel && !isDOCX && !isXML && !isSQL) return
+                        if (!isImage && !isVideo && !isPDF && !isTXT && !isExcel && !isDOCX && !isXML && !isSQL) return
 
-                    const href = a.getAttribute("href");
-                    const urlImagem = new URL(href, location.origin).href;
+                        const href = a.getAttribute("href");
+                        const urlImagem = new URL(href, location.origin).href;
 
-                    fetch(urlImagem)
-                        .then(r => r.blob())
-                        .then(blob => {
-                        const imgUrl = URL.createObjectURL(blob);
+                        fetch(urlImagem)
+                            .then(r => r.blob())
+                            .then(blob => {
+                                const imgUrl = URL.createObjectURL(blob);
 
-                        let container = tramiteDiv.querySelector(".body");
+                                let container = tramiteDiv.querySelector(".body");
 
-                        if (!container) {
-                            container = document.createElement("div");
-                            container.className = "preview-anexos";
-                            container.style.marginTop = "8px";
-                            container.style.display = "flex";
-                            container.style.gap = "8px";
-                            container.style.flexWrap = "wrap";
-                            tramiteDiv.appendChild(container);
-                        }
+                                if (!container) {
+                                    container = document.createElement("div");
+                                    container.className = "preview-anexos";
+                                    container.style.marginTop = "8px";
+                                    container.style.display = "flex";
+                                    container.style.gap = "8px";
+                                    container.style.flexWrap = "wrap";
+                                    tramiteDiv.appendChild(container);
+                                }
 
-                        if (isImage) {
-                            const img = document.createElement("img");
-                            img.src = imgUrl;
-                            img.title = nome;
-                            img.style.marginTop = "10px";
-                            img.style.maxWidth = "125px";
-                            img.style.maxHeight = "125px";
-                            img.style.cursor = "pointer";
-                            img.style.border = "1px solid #ccc";
-                            img.style.borderRadius = "4px";
-                            img.style.userSelect = "none";
+                                if (isImage) {
+                                    const img = document.createElement("img");
+                                    img.src = imgUrl;
+                                    img.title = nome;
+                                    img.style.marginTop = "10px";
+                                    img.style.maxWidth = "125px";
+                                    img.style.maxHeight = "125px";
+                                    img.style.cursor = "pointer";
+                                    img.style.border = "1px solid #ccc";
+                                    img.style.borderRadius = "4px";
+                                    img.style.userSelect = "none";
 
-                            img.onclick = () => abrirModalImagem(imgUrl);
+                                    img.onclick = () => abrirModalImagem(imgUrl);
 
-                            container.appendChild(img);
-                        }
+                                    container.appendChild(img);
+                                }
 
-                        if (isVideo) {
-                            const video = document.createElement("video");
-                            video.src = imgUrl;
-                            video.title = nome;
-                            video.muted = true;
-                            video.loop = true;
-                            video.autoplay = true;
+                                if (isVideo) {
+                                    const video = document.createElement("video");
+                                    video.src = imgUrl;
+                                    video.title = nome;
+                                    video.muted = true;
+                                    video.loop = true;
+                                    video.autoplay = true;
 
-                            video.style.marginTop = "10px";
-                            video.style.maxWidth = "80px";
-                            video.style.maxHeight = "80px";
-                            video.style.cursor = "pointer";
-                            video.style.border = "1px solid #ccc";
-                            video.style.borderRadius = "4px";
+                                    video.style.marginTop = "10px";
+                                    video.style.maxWidth = "80px";
+                                    video.style.maxHeight = "80px";
+                                    video.style.cursor = "pointer";
+                                    video.style.border = "1px solid #ccc";
+                                    video.style.borderRadius = "4px";
 
-                            video.onclick = () => abrirModalVideo(imgUrl);
+                                    video.onclick = () => abrirModalVideo(imgUrl);
 
-                            container.appendChild(video);
-                        }
+                                    container.appendChild(video);
+                                }
 
-                        if (isPDF) {
-                            const pdf = document.createElement("div");
+                                if (isPDF) {
+                                    const pdf = document.createElement("div");
 
-                            pdf.innerHTML = `<i class="fa fa-file-pdf-o"></i>`;
-                            pdf.title = nome;
+                                    pdf.innerHTML = `<i class="fa fa-file-pdf-o"></i>`;
+                                    pdf.title = nome;
 
-                            pdf.style.cssText = `
+                                    pdf.style.cssText = `
                                         margin-top: 10px;
                                         width: 40px;
                                         height: 40px;
@@ -1006,18 +1014,18 @@ function createImagesView() {
                                         cursor: pointer;
                                     `;
 
-                            pdf.onclick = () => abrirModalPDF(urlImagem);
+                                    pdf.onclick = () => abrirModalPDF(urlImagem);
 
-                            container.appendChild(pdf);
-                        }
+                                    container.appendChild(pdf);
+                                }
 
-                        if (isTXT) {
-                            const txt = document.createElement("div");
+                                if (isTXT) {
+                                    const txt = document.createElement("div");
 
-                            txt.innerHTML = `<i class="fa fa-file-text-o"></i>`;
-                            txt.title = nome;
+                                    txt.innerHTML = `<i class="fa fa-file-text-o"></i>`;
+                                    txt.title = nome;
 
-                            txt.style.cssText = `
+                                    txt.style.cssText = `
                                         margin-top: 10px;
                                         width: 40px;
                                         height: 40px;
@@ -1032,19 +1040,19 @@ function createImagesView() {
                                         cursor: pointer;
                                     `;
 
-                            txt.onclick = () => abrirModalTXT(urlImagem);
+                                    txt.onclick = () => abrirModalTXT(urlImagem);
 
-                            container.appendChild(txt);
-                        }
+                                    container.appendChild(txt);
+                                }
 
-                        if (isExcel) {
+                                if (isExcel) {
 
-                            const excel = document.createElement("div")
+                                    const excel = document.createElement("div")
 
-                            excel.innerHTML = `<i class="fa fa-file-excel-o"></i>`
+                                    excel.innerHTML = `<i class="fa fa-file-excel-o"></i>`
                                     excel.title = nome
 
-                            excel.style.cssText = `
+                                    excel.style.cssText = `
                                         margin-top: 10px;
                                         width: 40px;
                                         height: 40px;
@@ -1061,18 +1069,18 @@ function createImagesView() {
 
                                     excel.onclick = () => abrirModalExcel(urlImagem)
 
-                            container.appendChild(excel)
+                                    container.appendChild(excel)
 
-                        }
+                                }
 
-                        if (isDOCX) {
+                                if (isDOCX) {
 
-                            const docx = document.createElement("div")
+                                    const docx = document.createElement("div")
 
-                            docx.innerHTML = `<i class="fa fa-file-word-o"></i>`
+                                    docx.innerHTML = `<i class="fa fa-file-word-o"></i>`
                                     docx.title = nome
 
-                            docx.style.cssText = `
+                                    docx.style.cssText = `
                                         margin-top:10px;
                                         width:40px;
                                         height:40px;
@@ -1089,66 +1097,66 @@ function createImagesView() {
 
                                     docx.onclick = () => abrirModalDOCX(urlImagem)
 
-                            container.appendChild(docx)
-                        }
+                                    container.appendChild(docx)
+                                }
 
-                        if (isXML) {
+                                if (isXML) {
 
-                            const xml = document.createElement("div")
+                                    const xml = document.createElement("div")
 
-                            xml.innerHTML = `<i class="fa fa-code"></i>`
-    xml.title = nome
+                                    xml.innerHTML = `<i class="fa fa-code"></i>`
+                                    xml.title = nome
 
-                            xml.style.cssText = `
-        margin-top:10px;
-        width:40px;
-        height:40px;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        font-size:26px;
-        color:#e67e22;
-        background:#f8f8f8;
-        border:1px solid #ccc;
-        border-radius:4px;
-        cursor:pointer;
-    `
+                                    xml.style.cssText = `
+                                        margin-top:10px;
+                                        width:40px;
+                                        height:40px;
+                                        display:flex;
+                                        align-items:center;
+                                        justify-content:center;
+                                        font-size:26px;
+                                        color:#e67e22;
+                                        background:#f8f8f8;
+                                        border:1px solid #ccc;
+                                        border-radius:4px;
+                                        cursor:pointer;
+                                    `
 
-    xml.onclick = () => abrirModalXML(urlImagem)
+                                    xml.onclick = () => abrirModalXML(urlImagem)
 
-                            container.appendChild(xml)
+                                    container.appendChild(xml)
 
-                        }
+                                }
 
-                        if (isSQL) {
-                            const sql = document.createElement("div");
+                                if (isSQL) {
+                                    const sql = document.createElement("div");
 
-                            sql.innerHTML = `<i class="fa fa-database"></i>`;
-                            sql.title = nome;
+                                    sql.innerHTML = `<i class="fa fa-database"></i>`;
+                                    sql.title = nome;
 
-                            sql.style.cssText = `
-        margin-top: 10px;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 26px;
-        color: #f39c12;
-        background: #f8f8f8;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        cursor: pointer;
-    `;
+                                    sql.style.cssText = `
+                                        margin-top: 10px;
+                                        width: 40px;
+                                        height: 40px;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        font-size: 26px;
+                                        color: #f39c12;
+                                        background: #f8f8f8;
+                                        border: 1px solid #ccc;
+                                        border-radius: 4px;
+                                        cursor: pointer;
+                                    `;
 
-                            sql.onclick = () => abrirModalTXT(urlImagem);
+                                    sql.onclick = () => abrirModalTXT(urlImagem);
 
-                            container.appendChild(sql);
-                        }
+                                    container.appendChild(sql);
+                                }
 
+                            });
                     });
                 });
-            });
         });
     }, 1000);
 }
